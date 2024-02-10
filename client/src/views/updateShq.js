@@ -48,7 +48,7 @@ class updateShq extends Component {
             agencys: 0,
             shhqs: 0,
             address: '',
-            name: '',
+            name: '', 
             age: '',
             aadharNumber: '',
             panNumber: '',

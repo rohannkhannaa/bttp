@@ -91,7 +91,11 @@ class shqProfile extends Component {
             shhq = await this.state.RfpInstance.methods.getShqDetails(currentAddress).call();
             console.log(shhq);
             console.log(shhq[0]);
-
+            console.log(shhq[2]);
+            console.log(shhq[3]);
+            console.log(shhq[4]);
+            console.log(shhq[5]);
+            
             //shqTable.push(<div><p>Name: {shhq[0]}</p><p>Age: {shhq[1]}</p><p>Aadhar Number: {shhq[2]}</p><p>Pan Number: {shhq[3]}</p><p>Owned Rfps: {shhq[4]}</p></div>);
               shqTable.push(<>
               <Row>
@@ -153,6 +157,14 @@ class shqProfile extends Component {
                     type="text"
                     value={shhq[3]}  
                     />
+                  </FormGroup>
+                </Col>
+              </Row>
+              <Row>
+                <Col md="12">
+                  <FormGroup>
+                    <label>Your Aadhar Document</label>
+                    <div class="post-meta"><span class="timestamp"> <a href={`https://ipfs.io/ipfs/${shhq[5]}`} target="_blank">Here</a></span></div>
                   </FormGroup>
                 </Col>
               </Row>
