@@ -2,7 +2,10 @@ import React, { Component } from "react";
 import RfpContract from "./artifacts/Rfp.json";
 import getWeb3 from "./getWeb3";
 import ipfs from "./ipfs";
-
+import axios from "axios";
+import FormData from "form-data";
+import fs from "fs";
+import dotenv from "dotenv";
 import {
   FormGroup,
   FormControl,
@@ -10,6 +13,7 @@ import {
   Spinner,
   FormFile,
 } from "react-bootstrap";
+dotenv.config();
 
 //import Navigation from './Navigation'
 
@@ -29,6 +33,7 @@ class RegisterShq extends Component {
       isVerified: false,
       buffer2: null,
       document: "",
+      selectedFile: null,
     };
     this.captureDoc = this.captureDoc.bind(this);
     this.addDoc = this.addDoc.bind(this);
@@ -69,7 +74,7 @@ class RegisterShq extends Component {
   };
 
   addDoc = async () => {
-    alert('In add image')
+    alert("In add image");
     await ipfs.files.add(this.state.buffer2, (error, result) => {
       if (error) {
         alert(error);
@@ -82,19 +87,66 @@ class RegisterShq extends Component {
     });
   };
 
+  pinFileToIPFS = async (selectedFile) => {
+    try {
+      let data = new FormData();
+      data.append("file", selectedFile);
+      data.append("pinataOptions", '{"cidVersion": 0}');
+      data.append("pinataMetadata", '{"name": "pinnie"}');
+      console.log(selectedFile);
+      const res = await axios.post(
+        "https://api.pinata.cloud/pinning/pinFileToIPFS",
+        data,
+        {
+          headers: {
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJjYWZiZWZjOS0zYmQzLTQzMTUtOTBhZS1lMTE0ZTk2YzI4YTkiLCJlbWFpbCI6InIucGF0aWRhcjE4MTAwMS4yQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJwaW5fcG9saWN5Ijp7InJlZ2lvbnMiOlt7ImlkIjoiRlJBMSIsImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxfSx7ImlkIjoiTllDMSIsImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxfV0sInZlcnNpb24iOjF9LCJtZmFfZW5hYmxlZCI6ZmFsc2UsInN0YXR1cyI6IkFDVElWRSJ9LCJhdXRoZW50aWNhdGlvblR5cGUiOiJzY29wZWRLZXkiLCJzY29wZWRLZXlLZXkiOiJiMzg4MTdmYjA0OGU5NDJlOTE0ZiIsInNjb3BlZEtleVNlY3JldCI6IjQ5YWQxNTc4YTE3ZTNiZjYxYmViYTAwNDZhOWY3MTg4MzFjMDcxN2U3ZTAxMzEyOTc5OWIzYzMxMDdmNDk5ZWYiLCJpYXQiOjE3MDgyNTExODF9.0gMn_Q95h0rQwNtbaM7UD1Tc4ukblr6sYClAC9EfXY0`,
+          },
+        }
+      );
+      const ipfsLink = `https://gateway.pinata.cloud/ipfs/${res.data.IpfsHash}`;
+      this.setState({ document: ipfsLink });
+      console.log(document);
+      console.log(res.data);
+      console.log(
+        `View the file here: https://gateway.pinata.cloud/ipfs/${res.data.IpfsHash}`
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  handleFileChange = (event) => {
+    const selectedFile = event.target.files[0];
+
+    // Show a confirmation dialog
+    const isConfirmed = window.confirm("Do you want to upload this file?");
+
+    // Check if the user confirmed before proceeding
+    if (isConfirmed) {
+      // Call your pinFileToIPFS function with the selected file
+      this.pinFileToIPFS(selectedFile);
+    } else {
+      // Handle the case when the user cancels the upload
+      console.log("File upload cancelled by user");
+    }
+  };
+
   registerShq = async () => {
-    this.addDoc();
-    alert('After add image')
-    await new Promise((resolve) => setTimeout(resolve, 10000));
-    // if (this.state.name == '' || this.state.age == '' || this.state.aadharNumber == '' || this.state.panNumber == '' || this.state.rfpssOwned == '') {
-    //     alert("All the fields are compulsory!");
-    // } else if (!Number(this.state.aadharNumber) || this.state.aadharNumber.length != 12) {
-    //     alert("Aadhar Number should be 12 digits long!");
-    // } else if (this.state.panNumber.length != 10) {
-    //     alert("Pan Number should be a 10 digit unique number!");
-    // } else if (!Number(this.state.age) || this.state.age < 21) {
-    //     alert("Your age must be a number");
+    // this.pinFileToIPFS();
+    alert("After add image");
+    // event.preventDefault();
+
+    // const { sfile } = this.state.selectedFile;
+
+    // if (sfile) {
+    //   // Call your pinFileToIPFS function with the selected file here
+    //   await this.pinFileToIPFS(sfile);
     // } else {
+    //   console.log("No file selected.");
+    //   // Handle case when no file is selected
+    // }
+
+    await new Promise((resolve) => setTimeout(resolve, 10000));
     await this.state.RfpInstance.methods
       .registerShq(
         this.state.name,
@@ -141,12 +193,6 @@ class RegisterShq extends Component {
     if (!this.state.web3) {
       return (
         <div>
-          {/* <div className="img-wrapper">
-                        <img src="https://i.pinimg.com/originals/71/6e/00/716e00537e8526347390d64ec900107d.png" className="logo" />
-                        <div className="wine-text-container">
-                            <div className="site-title wood-text">Rfp Registry</div>
-                        </div>
-                    </div> */}
           <div className="auth-wrapper">
             <div className="auth-inner">
               <div>
@@ -165,7 +211,6 @@ class RegisterShq extends Component {
     return (
       <div className="bodyC">
         <div className="img-wrapper">
-          {/* <img src="https://i.pinimg.com/originals/71/6e/00/716e00537e8526347390d64ec900107d.png" className="logo" /> */}
           <div className="wine-text-container">
             <div className="site-title wood-text"></div>
           </div>
@@ -238,9 +283,14 @@ class RegisterShq extends Component {
                                 </FormGroup> 
         */}
 
-                <FormGroup>
+                {/* <FormGroup>
                   <label>Add your Aadhar Card (PDF Format)</label>
                   <FormFile id="File2" onChange={this.captureDoc} />
+                </FormGroup> */}
+
+                <FormGroup>
+                  <label>Add your Aadhar Card (PDF Format)</label>
+                  <FormFile id="File2" onChange={this.handleFileChange} />
                 </FormGroup>
 
                 <Button onClick={this.registerShq} className="button-vote">

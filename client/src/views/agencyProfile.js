@@ -45,7 +45,7 @@ class agencyProfile extends Component {
             web3: null,
             agencys: 0,
             shhqs: 0,
-            verified: '',
+            verified: '', 
         }
     }
 
@@ -86,7 +86,7 @@ class agencyProfile extends Component {
 
             agency = await this.state.RfpInstance.methods.getAgencyDetails(currentAddress).call();
             console.log(agency);
-            console.log(agency[0]);
+            console.log(agency[3]);
 
             agencyTable.push(<>
             <Row>
@@ -175,14 +175,14 @@ class agencyProfile extends Component {
                   </FormGroup>
                 </Col>
               </Row> */}
-              {/* <Row>
+              <Row>
                 <Col md="12">
                   <FormGroup>
                     <label>Your Aadhar Document</label>
-                    <div class="post-meta"><span class="timestamp"> <a href={`https://ipfs.io/ipfs/${agency[3]}`} target="_blank">Here</a></span></div>
+                    <div class="post-meta"><span class="timestamp"> <a href={`${agency[3]}`} target="_blank">Here</a></span></div>
                   </FormGroup>
                 </Col>
-              </Row> */}
+              </Row>
              </>);
 
         } catch (error) {

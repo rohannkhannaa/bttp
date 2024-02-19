@@ -131,6 +131,7 @@ class Dashboard extends Component {
       var rowsPrice = [];
       var rowsPID = [];
       var rowsSurvey = [];
+      var rowsDocument =[];
 
 
       var dict = {}
@@ -148,14 +149,16 @@ class Dashboard extends Component {
         rowsPrice.push(<ContractData contract="Rfp" method="getPrice" methodArgs={[i, { from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" }]} />);
         rowsPID.push(<ContractData contract="Rfp" method="getPID" methodArgs={[i, { from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" }]} />);
         rowsSurvey.push(<ContractData contract="Rfp" method="getSurveyNumber" methodArgs={[i, { from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" }]} />);
+        rowsDocument.push(<ContractData contract="Rfp" method="getDocument" methodArgs={[i, { from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" }]} />);
       }
-
+      console.log(rowsCity[0]);
       for (var i = 0; i < count; i++) {
         console.log("Here"+count);
         var requested = await this.state.RfpInstance.methods.isRequested(i + 1).call();
         // console.log(requested);
-
+        
         row.push(<tr><td>{i + 1}</td><td>{rowsArea[i]}</td><td>{rowsCity[i]}</td><td>{rowsState[i]}</td><td>{rowsPrice[i]}</td><td>{rowsSurvey[i]}</td>
+          <td>{<a href={`${rowsDocument[i]}`} target="_blank">Documents</a>}</td>
           <td>
             <Button onClick={this.requestBid(dict[i + 1], i + 1)} disabled={!verified || requested} className="button-vote">
               Make bid
@@ -323,6 +326,7 @@ class Dashboard extends Component {
                             <th>State</th>
                             <th>Budget (INR)</th>
                             <th>RFP ID Number</th>
+                            <th>Documents</th>
                             <th>Request Contract</th>
                           </tr>
                         </thead>

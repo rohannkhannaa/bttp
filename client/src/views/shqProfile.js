@@ -164,7 +164,7 @@ class shqProfile extends Component {
                 <Col md="12">
                   <FormGroup>
                     <label>Your Aadhar Document</label>
-                    <div class="post-meta"><span class="timestamp"> <a href={`https://ipfs.io/ipfs/${shhq[5]}`} target="_blank">Here</a></span></div>
+                    <div class="post-meta"><span class="timestamp"> <a href={`${shhq[5]}`} target="_blank">Here</a></span></div>
                   </FormGroup>
                 </Col>
               </Row>

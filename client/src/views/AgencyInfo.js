@@ -146,7 +146,7 @@ class AgencyInfo extends Component {
             for (let i = 0; i < agencysCount; i++) {
                 // var i =3;
                 var agency = await this.state.RfpInstance.methods.getAgencyDetails(agencysMap[i]).call();
-
+                console.log(agency);
                 var agency_verify = await this.state.RfpInstance.methods.isVerified(agencysMap[i]).call();
                 console.log(agency_verify);
                 agency.verified = agency_verify;
@@ -155,6 +155,7 @@ class AgencyInfo extends Component {
                 console.log(not_verify);
                 agencyTable.push(<tr><td>{i + 1}</td><td>{agencysMap[i]}</td><td>{agency[0]}</td><td>{agency[4]}</td><td>{agency[1]}</td><td>{agency[6]}</td>
                     <td>{agency.verified.toString()==='true' ? ('Verified'):('Rejected/Pending')}</td>
+                    <td>{<a href={`${agency[3]}`} target="_blank">See more</a>}</td>
                     <td>
                         <Button onClick={this.verifyAgency(agencysMap[i])} disabled={agency_verify || not_verify} className="button-vote">
                             Verify
@@ -236,6 +237,7 @@ class AgencyInfo extends Component {
                                                     <th>City</th>
                                                     <th>Agency Number</th>
                                                     <th>Verification Status</th>
+                                                    <th>Document</th>
                                                     <th>Verify Agency</th>
                                                     <th>Reject Agency</th>
                                                 </tr>

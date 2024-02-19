@@ -2,6 +2,10 @@ import React, { Component } from "react";
 import RfpContract from "./artifacts/Rfp.json";
 import getWeb3 from "./getWeb3";
 import ipfs from "./ipfs";
+import axios from "axios";
+import FormData from "form-data";
+import fs from "fs";
+import dotenv from "dotenv";
 
 import {
   FormGroup,
@@ -30,6 +34,7 @@ class RegisterAgency extends Component {
       isVerified: false,
       buffer2: null,
       document: "",
+      selectedFile: null,
     };
     this.captureDoc = this.captureDoc.bind(this);
     this.addDoc = this.addDoc.bind(this);
@@ -80,6 +85,50 @@ class RegisterAgency extends Component {
       this.setState({ document: result[0].hash });
       console.log("document:", this.state.document);
     });
+  };
+
+  pinFileToIPFS = async (selectedFile) => {
+    try {
+      let data = new FormData();
+      data.append("file", selectedFile);
+      data.append("pinataOptions", '{"cidVersion": 0}');
+      data.append("pinataMetadata", '{"name": "pinnie"}');
+      console.log(selectedFile);
+      const res = await axios.post(
+        "https://api.pinata.cloud/pinning/pinFileToIPFS",
+        data,
+        {
+          headers: {
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJjYWZiZWZjOS0zYmQzLTQzMTUtOTBhZS1lMTE0ZTk2YzI4YTkiLCJlbWFpbCI6InIucGF0aWRhcjE4MTAwMS4yQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJwaW5fcG9saWN5Ijp7InJlZ2lvbnMiOlt7ImlkIjoiRlJBMSIsImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxfSx7ImlkIjoiTllDMSIsImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxfV0sInZlcnNpb24iOjF9LCJtZmFfZW5hYmxlZCI6ZmFsc2UsInN0YXR1cyI6IkFDVElWRSJ9LCJhdXRoZW50aWNhdGlvblR5cGUiOiJzY29wZWRLZXkiLCJzY29wZWRLZXlLZXkiOiJiMzg4MTdmYjA0OGU5NDJlOTE0ZiIsInNjb3BlZEtleVNlY3JldCI6IjQ5YWQxNTc4YTE3ZTNiZjYxYmViYTAwNDZhOWY3MTg4MzFjMDcxN2U3ZTAxMzEyOTc5OWIzYzMxMDdmNDk5ZWYiLCJpYXQiOjE3MDgyNTExODF9.0gMn_Q95h0rQwNtbaM7UD1Tc4ukblr6sYClAC9EfXY0`,
+          },
+        }
+      );
+      const ipfsLink = `https://gateway.pinata.cloud/ipfs/${res.data.IpfsHash}`;
+      this.setState({ document: ipfsLink });
+      console.log(document);
+      console.log(res.data);
+      console.log(
+        `View the file here: https://gateway.pinata.cloud/ipfs/${res.data.IpfsHash}`
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  handleFileChange = (event) => {
+    const selectedFile = event.target.files[0];
+
+    // Show a confirmation dialog
+    const isConfirmed = window.confirm("Do you want to upload this file?");
+
+    // Check if the user confirmed before proceeding
+    if (isConfirmed) {
+      // Call your pinFileToIPFS function with the selected file
+      this.pinFileToIPFS(selectedFile);
+    } else {
+      // Handle the case when the user cancels the upload
+      console.log("File upload cancelled by user");
+    }
   };
 
   RegisterAgency = async () => {
@@ -260,6 +309,11 @@ class RegisterAgency extends Component {
                   <label>Add your Aadhar Card (PDF Format)</label>
                   <FormFile id="File2" onChange={this.captureDoc} />
                 </FormGroup> */}
+
+                <FormGroup>
+                  <label>Add your Aadhar Card (PDF Format)</label>
+                  <FormFile id="File2" onChange={this.handleFileChange} />
+                </FormGroup>
 
                 <Button onClick={this.RegisterAgency} className="button-vote">
                   Register as Development Agency
