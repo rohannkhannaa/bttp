@@ -119,7 +119,7 @@ class TransactionInfo extends Component {
                 rowsState.push(<ContractData contract="Rfp" method="getState" methodArgs={[i, { from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" }]} />);
                 rowsPrice.push(<ContractData contract="Rfp" method="getPrice" methodArgs={[i, { from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" }]} />);
                 rowsPID.push(<ContractData contract="Rfp" method="getPID" methodArgs={[i, { from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" }]} />);
-                rowsSurvey.push(<ContractData contract="Rfp" method="getSurveyNumber" methodArgs={[i, { from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" }]} />);
+                rowsSurvey.push(<ContractData contract="Rfp" method="getPID" methodArgs={[i, { from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" }]} />);
               }
             for (var i = 0; i < count; i++) {
                 var request = await this.state.RfpInstance.methods.getBidDetails(i+1).call();
@@ -180,6 +180,8 @@ class TransactionInfo extends Component {
                                         <h1>
                                             You are not verified to view this page
                                         </h1>
+                                        <br></br>
+                    <a href = "/" class ="btn btn-dark">Go Back to home page</a>
                                     </CardBody>
                                 </Card>
                             </Col>

@@ -53,7 +53,7 @@ function sendMail(email, name){
         function: 'request and buy any rfpp/property',
     };
     
-    window.emailjs.send('service_vrxa1ak', 'template_zhc8m9h', tempParams)
+    window.emailjs.send('service_3bpiomr', 'template_zhc8m9h', tempParams)
     .then(function(res){
         alert("Mail sent successfully");
     })
@@ -206,6 +206,8 @@ class AgencyInfo extends Component {
                                         <h1>
                                             You are not verified to view this page
                                         </h1>
+                                        <br></br>
+                    <a href = "/" class ="btn btn-dark">Go Back to home page</a>
                                     </CardBody>
                                 </Card>
                             </Col>

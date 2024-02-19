@@ -139,6 +139,7 @@ class ApproveRequest extends Component {
                         <h1>
                             You are not authorized to view this page.
                   </h1>
+                  <a href = "/" class ="btn btn-dark">Go Back to home page</a>
                     </div>
 
                 </div>

@@ -120,6 +120,8 @@ class AdminDashboard extends Component {
                                         <h1>
                                             You are not verified to view this page
                                         </h1>
+                                        <br></br>
+                    <a href = "/" class ="btn btn-dark">Go Back to home page</a>
                                     </CardBody>
                                 </Card>
                             </Col>
