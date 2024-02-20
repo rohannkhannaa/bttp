@@ -80,7 +80,7 @@ class ShqInfo extends Component {
         window.location.reload(false);
     }
 
-    componentDidMount = async () => {
+     async componentDidMount()  {
         //For refreshing page only once
         if (!window.location.hash) {
             window.location = window.location + '#loaded';
@@ -116,21 +116,40 @@ class ShqInfo extends Component {
             //console.log(verified);
             this.setState({ verified: verified });
 
+            
+            var shqPromises = [];
+        for (let i = 0; i < shqsCount; i++) {
+            (async (i) => {
+                this.processShq(i);
+            })(i);
+            // await this.processShq(i);
+        }
 
-            for (let i = 0; i < shqsCount; i++) {
-                var shhq = await this.state.RfpInstance.methods.getShqDetails(shqsMap[i]).call();
-                console.log(shhq);
-                var shq_verify = await this.state.RfpInstance.methods.isVerified(shqsMap[i]).call();
-                console.log(shq_verify);
-                shhq.verified = shq_verify;
-                
-                //shhq.push(shq_verify);
-                var not_verify = await this.state.RfpInstance.methods.isRejected(shqsMap[i]).call();
-                console.log(not_verify);
+        await Promise.all(shqPromises)
+        } catch (error) {
+            // Catch any errors for any of the above operations.
+            alert(
+                `Failed to load web3, accounts, or contract. Check console for details.`,
+            );
+            console.error(error);
+        }
+    };
+   
 
+    async processShq(i) {
+        // ... your existing shq processing logic
+        var shhq = await this.state.RfpInstance.methods.getShqDetails(shqsMap[i]).call();
+        console.log(shhq);
+        var shq_verify = await this.state.RfpInstance.methods.isVerified(shqsMap[i]).call();
+        console.log(shq_verify);
+        shhq.verified = shq_verify;
+        
+        //shhq.push(shq_verify);
+        var not_verify = await this.state.RfpInstance.methods.isRejected(shqsMap[i]).call();
+        console.log(not_verify);
 
-
-                shqTable.push(<tr><td>{i + 1}</td><td>{shqsMap[i]}</td><td>{shhq[0]}</td><td>{shhq[1]}</td><td>{shhq[2]}</td><td>{shhq[3]}</td>
+            // ... your existing JSX code
+            shqTable.push(<tr><td>{i + 1}</td><td>{shqsMap[i]}</td><td>{shhq[0]}</td><td>{shhq[1]}</td><td>{shhq[2]}</td><td>{shhq[3]}</td>
                     <td>{shhq.verified.toString()==='true'?('Verified'):('Rejected/Pending')}</td>
                     <td>
                         <Button onClick={this.verifyShq(shqsMap[i])} disabled={shq_verify || not_verify} className="button-vote">
@@ -141,23 +160,90 @@ class ShqInfo extends Component {
                         <Button  onClick={this.NotverifyShq(shqsMap[i])} disabled={shq_verify || not_verify} className="btn btn-danger">
                         Reject
                     </Button>
-                    </td></tr>)
-            console.log(shhq[5]);
+                    </td></tr>);
+    }
+    
+ // componentDidMount = async () => {
+    //     //For refreshing page only once
+    //     if (!window.location.hash) {
+    //         window.location = window.location + '#loaded';
+    //         window.location.reload();
+    //     }
+
+    //     try {
+    //         //Get network provider and web3 instance
+    //         const web3 = await getWeb3();
+
+    //         const accounts = await web3.eth.getAccounts();
+
+    //         const currentAddress = await web3.currentProvider.selectedAddress;
+    //         //console.log(currentAddress);
+    //         const networkId = await web3.eth.net.getId();
+    //         const deployedNetwork = Rfp.networks[networkId];
+    //         const instance = new web3.eth.Contract(
+    //             Rfp.abi,
+    //             deployedNetwork && deployedNetwork.address,
+    //         );
+
+    //         this.setState({ RfpInstance: instance, web3: web3, account: accounts[0] });
 
 
-            }
+    //         shqsCount = await this.state.RfpInstance.methods.getShqCount().call();
+    //         console.log(shqsCount);
+
+            
+            
+    //         shqsMap = await this.state.RfpInstance.methods.getShq().call();
+            
+    //         var verified = await this.state.RfpInstance.methods.isAdmin(currentAddress).call();
+    //         //console.log(verified);
+    //         this.setState({ verified: verified });
+
+            
+            
+    //         for (let i = 0; i < shqsCount; i++) {
+    //             var shhq = await this.state.RfpInstance.methods.getShqDetails(shqsMap[i]).call();
+    //             console.log(shhq);
+    //             var shq_verify = await this.state.RfpInstance.methods.isVerified(shqsMap[i]).call();
+    //             console.log(shq_verify);
+    //             shhq.verified = shq_verify;
+                
+    //             //shhq.push(shq_verify);
+    //             var not_verify = await this.state.RfpInstance.methods.isRejected(shqsMap[i]).call();
+    //             console.log(not_verify);
 
 
 
-        } catch (error) {
-            // Catch any errors for any of the above operations.
-            alert(
-                `Failed to load web3, accounts, or contract. Check console for details.`,
-            );
-            console.error(error);
-        }
-    };
+    //             shqTable.push(<tr><td>{i + 1}</td><td>{shqsMap[i]}</td><td>{shhq[0]}</td><td>{shhq[1]}</td><td>{shhq[2]}</td><td>{shhq[3]}</td>
+    //                 <td>{shhq.verified.toString()==='true'?('Verified'):('Rejected/Pending')}</td>
+    //                 <td>
+    //                     <Button onClick={this.verifyShq(shqsMap[i])} disabled={shq_verify || not_verify} className="button-vote">
+    //                         Verify
+    //                 </Button>
+    //                 </td>
+    //                 <td>
+    //                     <Button  onClick={this.NotverifyShq(shqsMap[i])} disabled={shq_verify || not_verify} className="btn btn-danger">
+    //                     Reject
+    //                 </Button>
+    //                 </td></tr>)
+    //         console.log(shhq[5]);
 
+
+    //         }
+        
+    
+
+
+
+
+    //     } catch (error) {
+    //         // Catch any errors for any of the above operations.
+    //         alert(
+    //             `Failed to load web3, accounts, or contract. Check console for details.`,
+    //         );
+    //         console.error(error);
+    //     }
+    // };
 
 
     render() {
