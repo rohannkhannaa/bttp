@@ -3,15 +3,15 @@ import React, { Component } from "react";
 import classNames from "classnames";
 import Rfp from "../artifacts/Rfp.json";
 import getWeb3 from "../getWeb3";
-import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import { DrizzleProvider } from 'drizzle-react';
-import { Spinner } from 'react-bootstrap'
+import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import { DrizzleProvider } from "drizzle-react";
+import { Spinner } from "react-bootstrap";
 import {
   LoadingContainer,
   AccountData,
   ContractData,
-  ContractForm
-} from 'drizzle-react-components'
+  ContractForm,
+} from "drizzle-react-components";
 import "../index.css";
 // reactstrap components
 import {
@@ -27,49 +27,44 @@ import {
   UncontrolledTooltip,
 } from "reactstrap";
 
-
-
 const drizzleOptions = {
-  contracts: [Rfp]
-}
-
+  contracts: [Rfp],
+};
 
 var row = [];
 var rfpOwner = [];
 
 class Dashboard extends Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
-      RfpInstance: undefined,
+      RfpInstance: undefined, 
       account: null,
       web3: null,
       count: 0,
       requested: false,
-    }
+    };
   }
-
 
   makePayment = (shq_address, amount, rfp_idd) => async () => {
     // alert(amount);
 
-    amount = amount*0.0000057;
+    amount = amount * 0.0000057;
     alert(amount);
-    await this.state.RfpInstance.methods.payment(
-      shq_address,
-      rfp_idd
-    ).send({
-      from: this.state.account,
-      value: this.state.web3.utils.toWei(amount.toString(), "ether"),
-      gas: 2100000
-    }).then(response => {
-      this.props.history.push("#");
-    });
+    await this.state.RfpInstance.methods
+      .payment(shq_address, rfp_idd)
+      .send({
+        from: this.state.account,
+        value: this.state.web3.utils.toWei(amount.toString(), "ether"),
+        gas: 2100000,
+      })
+      .then((response) => {
+        this.props.history.push("#");
+      });
     //Reload
     window.location.reload(false);
-
-  }
+  };
 
   componentDidMount = async () => {
     //For refreshing page only once
@@ -104,8 +99,6 @@ class Dashboard extends Component {
       console.log(typeof (count));
       console.log(count);
 
-
-
       var dict = {}
       for (var i = 1; i < count + 1; i++) {
         var address = await this.state.RfpInstance.methods.getRfpOwner(i).call();
@@ -117,7 +110,7 @@ class Dashboard extends Component {
         var price = await this.state.RfpInstance.methods.getPrice(i + 1).call();
         row.push(<tr><td>{i + 1}</td><td>{dict[i + 1]}</td><td>{price}</td>
           <td>
-            <Button onClick={this.makePayment(dict[i + 1], price, i+1)} 
+            <Button onClick={this.makePayment(dict[i + 1], price, i+1)}
             disabled={paid} className="btn btn-success">
               Make Payment
             </Button>
@@ -127,9 +120,6 @@ class Dashboard extends Component {
       }
       console.log(row);
 
-
-
-
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -138,8 +128,93 @@ class Dashboard extends Component {
       console.error(error);
     }
   };
+  // async componentDidMount() {
+  //   // ... your existing code
+  //   if (!window.location.hash) {
+  //     console.log(window.location.hash);
+  //     window.location = window.location + "#loaded";
+  //     window.location.reload();
+  //   }
 
+  //   try {
+  //     // ... your existing code
+  //     const web3 = await getWeb3();
 
+  //     const accounts = await web3.eth.getAccounts();
+
+  //     const networkId = await web3.eth.net.getId();
+  //     const deployedNetwork = Rfp.networks[networkId];
+  //     const instance = new web3.eth.Contract(
+  //       Rfp.abi,
+  //       deployedNetwork && deployedNetwork.address
+  //     );
+
+  //     this.setState({
+  //       RfpInstance: instance,
+  //       web3: web3,
+  //       account: accounts[0],
+  //     });
+
+  //     const currentAddress = await web3.currentProvider.selectedAddress;
+  //     console.log(currentAddress);
+  //     var registered = await this.state.RfpInstance.methods
+  //       .isShq(currentAddress)
+  //       .call();
+  //     console.log(registered);
+  //     this.setState({ registered: registered });
+  //     var count = await this.state.RfpInstance.methods.getRfpCount().call();
+  //     count = parseInt(count);
+  //     console.log(typeof count);
+  //     console.log(count);
+
+  //     var dict = {};
+  //     for (var i = 1; i < count + 1; i++) {
+  //       (async (index) => {
+  //         var address = await this.state.RfpInstance.methods
+  //           .getRfpOwner(index)
+  //           .call(); 
+  //         dict[index] = address;
+  //       })(i);
+  //     }
+
+  //     const rowPromises = [];
+  //     for (var i = 0; i < count; i++) {
+  //       rowPromises.push(this.processRow(dict, i));
+  //     }
+
+  //     await Promise.all(rowPromises);
+
+  //     // ... the rest of your code
+  //   } catch (error) {
+  //     // ... your existing error handling
+  //     // Catch any errors for any of the above operations.
+  //     alert(
+  //       `Failed to load web3, accounts, or contract. Check console for details.`,
+  //     );
+  //     console.error(error);
+  //   }
+  // }
+  async processRow(dict, i) {
+    var paid = await this.state.RfpInstance.methods.isPaid(i + 1).call();
+    var price = await this.state.RfpInstance.methods.getPrice(i + 1).call();
+
+    row.push(
+      <tr key={i}>
+        <td>{i + 1}</td>
+        <td>{dict[i + 1]}</td>
+        <td>{price}</td>
+        <td>
+          <Button
+            onClick={() => this.makePayment(dict[i + 1], price, i + 1)}
+            disabled={paid}
+            className="btn btn-success"
+          >
+            Make Payment
+          </Button>
+        </td>
+      </tr>
+    );
+  }
 
   render() {
     if (!this.state.web3) {
@@ -150,7 +225,6 @@ class Dashboard extends Component {
               <Spinner animation="border" variant="primary" />
             </h1>
           </div>
-
         </div>
       );
     }
@@ -185,8 +259,10 @@ class Dashboard extends Component {
                 <Col lg="12" md="12">
                   <Card>
                     <CardHeader>
-                      <CardTitle tag="h4">Payment for RFPs<span className="duration">₹ 1 = 0.0000057 Ether</span></CardTitle>
-
+                      <CardTitle tag="h4">
+                        Payment for RFPs
+                        <span className="duration">₹ 1 = 0.0000057 Ether</span>
+                      </CardTitle>
                     </CardHeader>
                     <CardBody>
                       <Table className="tablesorter" responsive color="black">
@@ -198,9 +274,7 @@ class Dashboard extends Component {
                             <th>Make Payment</th>
                           </tr>
                         </thead>
-                        <tbody>
-                          {row}
-                        </tbody>
+                        <tbody>{row}</tbody>
                       </Table>
                     </CardBody>
                   </Card>
@@ -210,10 +284,8 @@ class Dashboard extends Component {
           </DrizzleProvider>
         </div>
       </>
-
     );
   }
 }
-
 
 export default Dashboard;

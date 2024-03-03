@@ -103,6 +103,9 @@ class SDash extends Component {
       console.log(count);
       //this.setState({count:count}); 
 
+      var docu = await this.state.RfpInstance.methods.getDocument(1).call();
+      console.log(docu);
+
       countarr.push(<ContractData contract="Rfp" method="getRfpCount" />);
       userarr.push(<ContractData contract="Rfp" method="getAgencyCount" />);
       reqsarr.push(<ContractData contract="Rfp" method="getBidCount" />);
@@ -113,6 +116,7 @@ class SDash extends Component {
       var rowsPrice = [];
       var rowsPID = [];
       var rowsSurvey = [];
+      var rowsDocument =[];
       
 
       for (var i = 1; i < count + 1; i++) {
@@ -122,11 +126,16 @@ class SDash extends Component {
         rowsPrice.push(<ContractData contract="Rfp" method="getPrice" methodArgs={[i, { from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" }]} />);
         rowsPID.push(<ContractData contract="Rfp" method="getPID" methodArgs={[i, { from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" }]} />);
         rowsSurvey.push(<ContractData contract="Rfp" method="getPID" methodArgs={[i, { from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" }]} />);
+        //rowsDocument.push(<ContractData contract="Rfp" method="getDocument" methodArgs={[i, { from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" }]} />);
+        var docu = await this.state.RfpInstance.methods.getDocument(i).call();
+        rowsDocument.push(docu);
       }
     
+      console.log(rowsDocument[0]);
 
       for (var i = 0; i < count; i++) {
         row.push(<tr><td>{i + 1}</td><td>{rowsArea[i]}</td><td>{rowsCity[i]}</td><td>{rowsState[i]}</td><td>{rowsPrice[i]}</td><td>{rowsSurvey[i]}</td>
+        <td>{<a href={`${rowsDocument[i]}`} target="_blank">Document</a>}</td>
         </tr>)
 
       }
@@ -306,6 +315,7 @@ class SDash extends Component {
                             <th>State</th>
                             <th>Budget</th>
                             <th>RFP ID Number</th>
+                            <th>Document</th>
                           </tr>
                         </thead>
                         <tbody>

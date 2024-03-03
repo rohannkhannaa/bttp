@@ -112,6 +112,7 @@ class AddRfp extends Component {
       const ipfsLink = `https://gateway.pinata.cloud/ipfs/${res.data.IpfsHash}`;
       this.setState({ document: ipfsLink });
       console.log(document);
+      console.log(ipfsLink); 
       console.log(res.data);
       console.log(
         `View the file here: https://gateway.pinata.cloud/ipfs/${res.data.IpfsHash}`

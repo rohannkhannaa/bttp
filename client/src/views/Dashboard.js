@@ -3,15 +3,15 @@ import React, { Component } from "react";
 import classNames from "classnames";
 import Rfp from "../artifacts/Rfp.json";
 import getWeb3 from "../getWeb3";
-import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import { DrizzleProvider } from 'drizzle-react';
-import { Spinner } from 'react-bootstrap'
+import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import { DrizzleProvider } from "drizzle-react";
+import { Spinner } from "react-bootstrap";
 import {
   LoadingContainer,
   AccountData,
   ContractData,
-  ContractForm
-} from 'drizzle-react-components'
+  ContractForm,
+} from "drizzle-react-components";
 // reactstrap components
 import {
   Button,
@@ -34,11 +34,9 @@ import {
 } from "reactstrap";
 import "../card.css";
 
-
 const drizzleOptions = {
-  contracts: [Rfp]
-}
-
+  contracts: [Rfp],
+};
 
 var row = [];
 var countarr = [];
@@ -49,7 +47,7 @@ var rfpOwner = [];
 
 class Dashboard extends Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       RfpInstance: undefined,
@@ -57,29 +55,27 @@ class Dashboard extends Component {
       web3: null,
       count: 0,
       requested: false,
-    }
+    };
   }
 
   requestBid = (shq_address, rfp_idd) => async () => {
-
     console.log(shq_address);
     console.log(rfp_idd);
     // this.setState({requested: true});
     // requested = true;
-    await this.state.RfpInstance.methods.requestBid(
-      shq_address,
-      rfp_idd
-    ).send({
-      from: this.state.account,
-      gas: 2100000
-    }).then(response => {
-      this.props.history.push("#");
-    });
+    await this.state.RfpInstance.methods
+      .requestBid(shq_address, rfp_idd)
+      .send({
+        from: this.state.account,
+        gas: 2100000,
+      })
+      .then((response) => {
+        this.props.history.push("#");
+      });
 
     //Reload
     window.location.reload(true);
-
-  }
+  };
 
   componentDidMount = async () => {
     //For refreshing page only once
@@ -133,7 +129,6 @@ class Dashboard extends Component {
       var rowsSurvey = [];
       var rowsDocument =[];
 
-
       var dict = {}
       for (var i = 1; i < count + 1; i++) {
         var address = await this.state.RfpInstance.methods.getRfpOwner(i).call();
@@ -149,14 +144,17 @@ class Dashboard extends Component {
          rowsPrice.push(<ContractData contract="Rfp" method="getPrice" methodArgs={[i, { from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" }]} />);
          rowsPID.push(<ContractData contract="Rfp" method="getPID" methodArgs={[i, { from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" }]} />);
          rowsSurvey.push(<ContractData contract="Rfp" method="getPID" methodArgs={[i, { from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" }]} />);
-         rowsDocument.push(<ContractData contract="Rfp" method="getDocument" methodArgs={[i, { from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" }]} />);
+         //rowsDocument.push(<ContractData contract="Rfp" method="getDocument" methodArgs={[i, { from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" }]} />);
+         var docu = await this.state.RfpInstance.methods.getDocument(i).call();
+        rowsDocument.push(docu);
       }
-      console.log(rowsCity[0]);
-      for (var i = 0; i < count; i++) {
+      console.log(rowsDocument);
+      console.log(rowsArea);
+      for (var i = 0; i < count; i++) { 
         console.log("Here"+count);
         var requested = await this.state.RfpInstance.methods.isRequested(i + 1).call();
-        // console.log(requested);
-        
+        console.log(requested);
+
         row.push(<tr><td>{i + 1}</td><td>{rowsArea[i]}</td><td>{rowsCity[i]}</td><td>{rowsState[i]}</td><td>{rowsPrice[i]}</td><td>{rowsSurvey[i]}</td>
           <td>{<a href={`${rowsDocument[i]}`} target="_blank">Documents</a>}</td>
           <td>
@@ -168,9 +166,6 @@ class Dashboard extends Component {
       }
       console.log(row);
 
-
-
-
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -179,6 +174,8 @@ class Dashboard extends Component {
       console.error(error);
     }
   };
+
+ 
 
 
 
@@ -191,7 +188,6 @@ class Dashboard extends Component {
               <Spinner animation="border" variant="primary" />
             </h1>
           </div>
-
         </div>
       );
     }
@@ -206,13 +202,14 @@ class Dashboard extends Component {
                   <CardBody>
                     <h1>You are not verified to view this page</h1>
                     <br></br>
-                    <a href = "/" class ="btn btn-dark">Go Back to home page</a>
+                    <a href="/" class="btn btn-dark">
+                      Go Back to home page
+                    </a>
                   </CardBody>
                 </Card>
               </Col>
             </Row>
           </div>
-
         </div>
       );
     }
@@ -220,28 +217,34 @@ class Dashboard extends Component {
     return (
       <>
         <div className="content">
-        <DrizzleProvider options={drizzleOptions}>
+          <DrizzleProvider options={drizzleOptions}>
             <LoadingContainer>
               <div className="main-section">
                 <Row>
                   <Col lg="4">
                     <div class="dashbord">
                       <div class="icon-section">
-                        <i class="fa fa-users" aria-hidden="true"></i><br />
-                        <medium>My Profile</medium><br />
+                        <i class="fa fa-users" aria-hidden="true"></i>
+                        <br />
+                        <medium>My Profile</medium>
+                        <br />
                       </div>
-                      <div class="detail-section"><br />
+                      <div class="detail-section">
+                        <br />
                       </div>
                     </div>
                   </Col>
                   <Col lg="4">
                     <div class="dashbord">
                       <div class="icon-section">
-                        <i class="fa fa-landmark" aria-hidden="true"></i><br />
-                        <medium>Assigned Contracts</medium><br />
-                        <p style={{color : 'white'}}>{countarr}</p>
+                        <i class="fa fa-landmark" aria-hidden="true"></i>
+                        <br />
+                        <medium>Assigned Contracts</medium>
+                        <br />
+                        <p style={{ color: "white" }}>{countarr}</p>
                       </div>
-                      <div class="detail-section"><br />
+                      <div class="detail-section">
+                        <br />
                       </div>
                     </div>
                   </Col>
@@ -261,7 +264,7 @@ class Dashboard extends Component {
               </div>
             </LoadingContainer>
           </DrizzleProvider>
-                    <Row>
+          <Row>
             <Col lg="4">
               <Card>
                 <CardHeader>
@@ -269,10 +272,13 @@ class Dashboard extends Component {
                 </CardHeader>
                 <CardBody>
                   <div className="chart-area">
-
-                    <Button href="/admin/agencyProfile" className="btn-fill btn-dark" color="primary">
+                    <Button
+                      href="/admin/agencyProfile"
+                      className="btn-fill btn-dark"
+                      color="primary"
+                    >
                       View Profile
-                </Button>
+                    </Button>
                   </div>
                 </CardBody>
               </Card>
@@ -284,10 +290,13 @@ class Dashboard extends Component {
                 </CardHeader>
                 <CardBody>
                   <div className="chart-area">
-
-                    <Button href="/admin/OwnedRfps" className="btn-fill btn-dark" color="primary">
+                    <Button
+                      href="/admin/OwnedRfps"
+                      className="btn-fill btn-dark"
+                      color="primary"
+                    >
                       View contracts assigned
-                </Button>
+                    </Button>
                   </div>
                 </CardBody>
               </Card>
@@ -314,7 +323,9 @@ class Dashboard extends Component {
                 <Col lg="12" md="12">
                   <Card>
                     <CardHeader>
-                      <CardTitle tag="h4">Issued Request for Proposal</CardTitle>
+                      <CardTitle tag="h4">
+                        Issued Request for Proposal
+                      </CardTitle>
                     </CardHeader>
                     <CardBody>
                       <Table className="tablesorter" responsive color="black">
@@ -330,9 +341,7 @@ class Dashboard extends Component {
                             <th>Request Contract</th>
                           </tr>
                         </thead>
-                        <tbody>
-                          {row}
-                        </tbody>
+                        <tbody>{row}</tbody>
                       </Table>
                     </CardBody>
                   </Card>
@@ -342,10 +351,8 @@ class Dashboard extends Component {
           </DrizzleProvider>
         </div>
       </>
-
     );
   }
 }
-
 
 export default Dashboard;

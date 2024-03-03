@@ -301,7 +301,7 @@ contract Rfp { // RFP
         //require that DevAgency is already registered
         require(RegisteredAddressMapping[msg.sender] && (AgencyMapping[msg.sender].id == msg.sender));
 
-        AgencyMapping[msg.sender].name = _name;
+        AgencyMapping[msg.sender].name = _name; 
         AgencyMapping[msg.sender].age = _age;
         AgencyMapping[msg.sender].city = _city;
         AgencyMapping[msg.sender].aadharNumber = _aadharNumber;
