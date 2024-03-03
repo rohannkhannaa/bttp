@@ -42,7 +42,7 @@ class Dashboard extends Component {
       RfpInstance: undefined, 
       account: null,
       web3: null,
-      count: 0,
+      count: 0, 
       requested: false,
     };
   }

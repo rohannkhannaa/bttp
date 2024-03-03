@@ -8,7 +8,6 @@ var routes = [
   {
     path: "/AdminDashboard",
     name: "Dashboard",
-    //rtlName: "لوحة القيادة",
     icon: "tim-icons icon-chart-pie-36",
     component: AdminDashboard,
     layout: "/Adminn",
@@ -16,7 +15,6 @@ var routes = [
   {
     path: "/AgencyInfo",
     name: "AgencyInfo",
-    //rtlName: "لوحة القيادة",
     icon: "tim-icons icon-single-02",
     component: AgencyInfo,
     layout: "/Adminn",
@@ -24,7 +22,6 @@ var routes = [
   {
     path: "/ShqInfo",
     name: "ShqInfo",
-    //rtlName: "لوحة القيادة",
     icon: "tim-icons icon-single-02",
     component: ShqInfo,
     layout: "/Adminn",
@@ -32,7 +29,6 @@ var routes = [
   {
     path: "/TransactionInfo",
     name: "TransactionInfo",
-    //rtlName: "لوحة القيادة",
     icon: "tim-icons icon-send",
     component: TransactionInfo,
     layout: "/Adminn",

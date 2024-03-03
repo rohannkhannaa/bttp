@@ -10,7 +10,6 @@ var routes = [
   {
     path: "/ShqDashboard",
     name: "Dashboard",
-    //rtlName: "لوحة القيادة",
     icon: "tim-icons icon-chart-pie-36",
     component: ShqDashboard,
     layout: "/Shq",
@@ -18,7 +17,6 @@ var routes = [
   {
     path: "/AddRfp",
     name: "Add Rfp",
-    //rtlName: "الرموز",
     icon: "tim-icons icon-world",
     component: AddRfp,
     layout: "/Shq",
@@ -26,7 +24,6 @@ var routes = [
   {
     path: "/shqProfile",
     name: "Shq Profile",
-    //rtlName: "الرموز",
     icon: "tim-icons icon-single-02",
     component: shqProfile,
     layout: "/Shq",
@@ -34,7 +31,6 @@ var routes = [
   {
     path: "/ApproveRequest",
     name: "Rfp Requests",
-    //rtlName: "الرموز",
     icon: "tim-icons icon-badge",
     component: ApproveRequest,
     layout: "/Shq",
@@ -42,7 +38,6 @@ var routes = [
   {
     path: "/viewImage",
     name: "Rfp Gallery",
-    //rtlName: "الرموز",
     icon: "tim-icons icon-image-02",
     component: viewImage,
     layout: "/Shq",
@@ -50,7 +45,6 @@ var routes = [
   {
     path: "/updateShq",
     name: "",
-    //rtlName: "الرموز",
     icon: "tim-icons",
     component: updateShq,
     layout: "/Shq",
@@ -58,7 +52,6 @@ var routes = [
   {
     path: "/MakePayment",
     name: "Make Payment",
-    //rtlName: "الرموز",
     icon: "tim-icons icon-money-coins",
     component: MakePayment,
     layout: "/Shq",

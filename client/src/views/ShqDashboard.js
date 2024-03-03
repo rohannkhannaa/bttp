@@ -139,7 +139,7 @@ class SDash extends Component {
         </tr>)
 
       }
-      console.log(row);
+      console.log(JSON.stringify(row));
 
     } catch (error) {
       // Catch any errors for any of the above operations.
