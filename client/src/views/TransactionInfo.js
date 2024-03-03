@@ -132,6 +132,8 @@ class TransactionInfo extends Component {
                 console.log("completed: ", completed);
 
                 var owner = await this.state.RfpInstance.methods.getRfpOwner(i+1).call();
+                if(request[0] !== '0x0000000000000000000000000000000000000000' || request[1] !== "0x0000000000000000000000000000000000000000"){
+
                 rfpTable.push(<tr><td>{i+1}</td><td>{request[0]}</td><td>{request[1]}</td><td>{rowsArea[i]}</td><td>{rowsCity[i]}</td><td>{rowsState[i]}</td><td>{rowsPrice[i]}</td><td>{rowsSurvey[i]}</td>
                 <td>
                      <Button onClick={this.rfpTransfer(i+1, request[1])} disabled={!disabled} className="button-vote">
@@ -139,6 +141,7 @@ class TransactionInfo extends Component {
                     </Button>
                 </td>
                 </tr>)
+                }
 
 
             }

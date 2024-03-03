@@ -219,6 +219,10 @@ class RegisterAgency extends Component {
     }
 
     return (
+      <>
+      <video className='videoTag' id = "myVideo" autoPlay loop muted>
+                    <source src={'https://v.ftcdn.net/03/53/86/09/240_F_353860954_nRp3x9nnoaHZ1m0ar4qu8J8fh9SNJ7Fw_ST.mp4'} type='video/mp4' />
+                </video>
       <div className="bodyC">
         <div className="img-wrapper">
           {/* <img src="https://i.pinimg.com/originals/71/6e/00/716e00537e8526347390d64ec900107d.png" className="logo" /> */}
@@ -227,7 +231,7 @@ class RegisterAgency extends Component {
           </div>
         </div>
         <div className="auth-wrapper">
-          <div className="auth-inner">
+          <div className="auth-inner" style={{backgroundColor : 'rgba(255,255,255,0.7)'}}>
             <div className="App">
               <div>
                 <div>
@@ -315,7 +319,7 @@ class RegisterAgency extends Component {
                   <FormFile id="File2" onChange={this.handleFileChange} />
                 </FormGroup>
 
-                <Button onClick={this.RegisterAgency} className="button-vote">
+                <Button onClick={this.RegisterAgency} className="button-vote btn-fill btn-dark">
                   Register as Development Agency
                 </Button>
               </div>
@@ -323,6 +327,7 @@ class RegisterAgency extends Component {
           </div>
         </div>
       </div>
+      </>
     );
   }
 }

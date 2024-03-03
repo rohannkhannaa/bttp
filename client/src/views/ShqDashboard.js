@@ -229,27 +229,13 @@ class SDash extends Component {
                       </div>
                     </div>
                   </Col>
-                  <Col lg="4">
-              <Card>
-                <CardHeader>
-                  <h5 className="title">Make Payments to agencies</h5>
-                </CardHeader>
-                <CardBody>
-                  <div className="chart-area">
-
-                    <Button href="/Shq/MakePayment" className="btn-fill" color="primary">
-                      Make Payment
-                </Button>
-                  </div>
-                </CardBody>
-              </Card>
-            </Col>
+                  
                 </Row>
               </div>
             </LoadingContainer>
           </DrizzleProvider>
           <Row>
-            <Col lg="4">
+            <Col lg="3">
               <Card>
                 <CardHeader>
                   <h5 className="title">Add New Request for proposal</h5>
@@ -264,7 +250,8 @@ class SDash extends Component {
                 </CardBody>
               </Card>
             </Col>
-            <Col lg="4">
+            
+            <Col lg="3">
               <Card>
                 <CardHeader>
                   <h5 className="title">Profile</h5>
@@ -279,7 +266,7 @@ class SDash extends Component {
                 </CardBody>
               </Card>
             </Col>
-            <Col lg="4">
+            <Col lg="3">
               <Card>
                 <CardHeader>
                   <h5 className="title">Bid Request Details</h5>
@@ -290,6 +277,21 @@ class SDash extends Component {
                     <Button href="/Shq/ApproveRequest" disabled={!this.state.verified} className="btn-fill btn-dark" color="primary">
                       View all Bid Requests
                         </Button>
+                  </div>
+                </CardBody>
+              </Card>
+            </Col>
+            <Col lg="3">
+              <Card>
+                <CardHeader>
+                  <h5 className="title">Make Payments to agencies</h5>
+                </CardHeader>
+                <CardBody>
+                  <div className="chart-area">
+
+                  <Button href="/Shq/MakePayment" className="btn-fill btn-dark" color="primary">
+                      Make Payment
+                </Button>
                   </div>
                 </CardBody>
               </Card>

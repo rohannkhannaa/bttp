@@ -73,15 +73,18 @@ export default class Login extends Component {
     render() {
         if (this.state.shhq || this.state.agency || this.state.adminn) {
             return (
-
+                <>
+                <video className='videoTag' id = "myVideo" autoPlay loop muted>
+                    <source src={'https://v.ftcdn.net/03/53/86/09/240_F_353860954_nRp3x9nnoaHZ1m0ar4qu8J8fh9SNJ7Fw_ST.mp4'} type='video/mp4' />
+                </video>
                 <div className="bodyC">
                     <div className="img-wrapper">
                         <div className="wine-text-container">
-                            <div className="site-title wood-text">Indian Army Procurement</div>
+                            <div className="site-title" style={{ color :'white'}}>Indian Army Procurement</div>
                         </div>
                     </div>
-                    <div className="auth-wrapper">
-                        <div className="auth-inner">
+                    <div className="auth-wrapper" >
+                        <div className="auth-inner" style={{backgroundColor : 'rgba(255,255,255,0.7)'}} >
                             <h1>You are already registered.</h1>
                             <Button href="/Shq/ShqDashboard" disabled={!this.state.shhq} className="btn-block" style={{margin: "2px", backgroundColor: "peru"}} >Service Headquarter Dashboard</Button>
                             <br/><Button href="/admin/dashboard" disabled={!this.state.agency} className="btn-block" style={{margin: "2px", backgroundColor: "peru"}}>Development Agency Dashboard</Button>
@@ -89,18 +92,23 @@ export default class Login extends Component {
                         </div>
                     </div>
                 </div>
+                </>
             );
         }
 
         return (
+            <>
+            <video className='videoTag' id = "myVideo" autoPlay loop muted>
+                    <source src={'https://v.ftcdn.net/03/53/86/09/240_F_353860954_nRp3x9nnoaHZ1m0ar4qu8J8fh9SNJ7Fw_ST.mp4'} type='video/mp4' />
+                </video>
             <div className="bodyC">
                 <div className="img-wrapper">
                     <div className="wine-text-container">
-                        <div className="site-title wood-text">Indian Army Procurement</div>
+                        <div className="site-title" style={{color : 'white'}}>Indian Army Procurement</div>
                     </div>
                 </div>
                 <div className="auth-wrapper">
-                    <div className="auth-inner">
+                    <div className="auth-inner" style={{backgroundColor : 'rgba(255,255,255,0.7)'}}>
                         <div>
                             <h1 style={{ letterSpacing: "3px", fontWeight: 500, color: "black" }}>Welcome !</h1>
                             <h4 style={{ letterSpacing: "2px", color: 'black' }}>Blockchain-based Army Procurement Process</h4>
@@ -111,7 +119,7 @@ export default class Login extends Component {
                                 }}
                             />
 
-                            <div class="form-group" style={{ color: "black" }}>
+                            <div class="form-group" style={{ color: "black"  }}>
                                 <label class="control-label" for="Company" style={{ fontSize: "18px", padding: "2px" }}>Select Role</label>
                                 <select id="Company" class="form-control" name="Company" onChange={this.handleInputChange}>
                                     <option selected="true" disabled="disabled">Select Role</option>
@@ -121,12 +129,13 @@ export default class Login extends Component {
                             </div>
 
                             <div>
-                                <button onClick={() => this.submit()} className="btn btn-primary btn-block" style={{ marginBottom: "10px", marginTop: "10px" }}>Register</button>
+                                <button onClick={() => this.submit()} className="btn btn-primary btn-block btn-fill btn-dark" style={{ marginBottom: "10px", marginTop: "10px" }}>Register</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            </>
         );
     }
 }

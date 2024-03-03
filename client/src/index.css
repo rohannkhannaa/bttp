@@ -198,14 +198,21 @@ button.disabled:hover{
 .container .info span .fa {
   color: #e74c3c;
 }
-/*End*/
 
 
+#myVideo {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+  z-index: -1;
+}
 .bodyC{
-  background-image: url("https://m.media-amazon.com/images/I/611NYxzjZwL.jpg");
+  /* background-image: url("https://t4.ftcdn.net/jpg/06/28/85/21/240_F_628852124_vsRqjzh0R0Dhk5LgUvZnMqOAeGcBP0Tv.jpg"); */
   height: 100%;
   width: 100%;
-  overflow: hidden;
+  overflow: none;
   /* Center and scale the image nicely */
   background-position: center;
   background-repeat: no-repeat;

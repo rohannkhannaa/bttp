@@ -215,7 +215,7 @@ class shqProfile extends Component {
                                     <CardBody>
                                         <Form>
                                             {shqTable}
-                                            <Button href="/Shq/updateShq"  className="btn-fill" disabled={!this.state.verified} color="primary">
+                                            <Button href="/Shq/updateShq"  className="btn-fill btn-dark" disabled={!this.state.verified} color="primary">
                                             Edit Profile
                                       </Button>
                                         </Form>
