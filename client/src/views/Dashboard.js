@@ -162,7 +162,7 @@ class Dashboard extends Component {
         row.push(<tr><td>{i + 1}</td><td>{rowsArea[i]}</td><td>{rowsCity[i]}</td><td>{rowsState[i]}</td><td>{rowsPrice[i]}</td><td>{rowsSurvey[i]}</td>
         <td>{<a href={`${rowsDocument[i]}`} target="_blank">Document</a>}</td>
         <td>
-             <Button onClick={this.requestBid(dict[i + 1], 77872)} disabled={!verified} className="button-vote">
+             <Button onClick={this.requestBid(dict[i + 1], i+1)} disabled={!verified} className="button-vote">
               Make bid
              </Button>
            </td>

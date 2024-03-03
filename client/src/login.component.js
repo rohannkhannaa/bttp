@@ -75,7 +75,7 @@ export default class Login extends Component {
             return (
                 <>
                 <video className='videoTag' id = "myVideo" autoPlay loop muted>
-                    <source src={'https://v.ftcdn.net/03/53/86/09/240_F_353860954_nRp3x9nnoaHZ1m0ar4qu8J8fh9SNJ7Fw_ST.mp4'} type='video/mp4' />
+                    <source src={'https://v.ftcdn.net/03/53/86/09/700_F_353860954_nRp3x9nnoaHZ1m0ar4qu8J8fh9SNJ7Fw_ST.mp4'} type='video/mp4' />
                 </video>
                 <div className="bodyC">
                     <div className="img-wrapper">
@@ -98,14 +98,12 @@ export default class Login extends Component {
 
         return (
             <>
-            <video className='videoTag' id = "myVideo" autoPlay loop muted>
-                    <source src={'https://v.ftcdn.net/03/53/86/09/240_F_353860954_nRp3x9nnoaHZ1m0ar4qu8J8fh9SNJ7Fw_ST.mp4'} type='video/mp4' />
+            <video className='videoTag' id = "myVideo" autoPlay loop muted >
+                    <source src={'https://v.ftcdn.net/03/53/86/09/700_F_353860954_nRp3x9nnoaHZ1m0ar4qu8J8fh9SNJ7Fw_ST.mp4'} type='video/mp4' />
                 </video>
             <div className="bodyC">
-                <div className="img-wrapper">
-                    <div className="wine-text-container">
+                <div className="img-wrapper">   
                         <div className="site-title" style={{color : 'white'}}>Indian Army Procurement</div>
-                    </div>
                 </div>
                 <div className="auth-wrapper">
                     <div className="auth-inner" style={{backgroundColor : 'rgba(255,255,255,0.7)'}}>
