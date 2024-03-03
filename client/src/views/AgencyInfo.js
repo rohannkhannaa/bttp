@@ -178,8 +178,7 @@ class AgencyInfo extends Component {
             console.error(error);
         }
     };
-
-
+  
 
     render() {
         if (!this.state.web3) {
