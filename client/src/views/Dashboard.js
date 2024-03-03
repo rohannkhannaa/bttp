@@ -693,7 +693,7 @@ class Dashboard extends Component {
           </td>
         </tr>)
       }
-      console.log(JSON.stringify(row));
+      // console.log(JSON.stringify(row));
       // window.location.reload();
     } catch (error) {
       // Catch any errors for any of the above operations.

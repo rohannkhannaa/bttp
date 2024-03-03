@@ -108,7 +108,8 @@ class Dashboard extends Component {
       for (var i = 0; i < count; i++) {
         var paid = await this.state.RfpInstance.methods.isPaid(i + 1).call();
         var price = await this.state.RfpInstance.methods.getPrice(i + 1).call();
-        row.push(<tr><td>{i + 1}</td><td>{dict[i + 1]}</td><td>{price}</td>
+        var request = await this.state.RfpInstance.methods.getBidDetails(i+1).call();
+        row.push(<tr><td>{i + 1}</td><td>{request[0]}</td><td>{request[1]}</td><td>{price}</td>
           <td>
             <Button onClick={this.makePayment(dict[i + 1], price, i+1)}
             disabled={paid} className="btn btn-success">
@@ -269,7 +270,8 @@ class Dashboard extends Component {
                         <thead className="text-primary">
                           <tr>
                             <th>#</th>
-                            <th>Rfp Owner</th>
+                            <th>Payment From</th>
+                            <th>Payment To</th>
                             <th>Price ( in ₹ )</th>
                             <th>Make Payment</th>
                           </tr>

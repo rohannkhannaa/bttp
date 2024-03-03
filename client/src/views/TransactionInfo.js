@@ -132,7 +132,7 @@ class TransactionInfo extends Component {
                 console.log("completed: ", completed);
 
                 var owner = await this.state.RfpInstance.methods.getRfpOwner(i+1).call();
-                rfpTable.push(<tr><td>{i+1}</td><td>{owner}</td><td>{rowsArea[i]}</td><td>{rowsCity[i]}</td><td>{rowsState[i]}</td><td>{rowsPrice[i]}</td><td>{rowsSurvey[i]}</td>
+                rfpTable.push(<tr><td>{i+1}</td><td>{request[0]}</td><td>{request[1]}</td><td>{rowsArea[i]}</td><td>{rowsCity[i]}</td><td>{rowsState[i]}</td><td>{rowsPrice[i]}</td><td>{rowsSurvey[i]}</td>
                 <td>
                      <Button onClick={this.rfpTransfer(i+1, request[1])} disabled={!disabled} className="button-vote">
                           Verify Transaction
@@ -208,6 +208,7 @@ class TransactionInfo extends Component {
                                                 <tr>
                                                 <th>#</th>
                                                 <th>Service Head Quarter Account ID</th>
+                                                <th>Payment to</th>
                                                 <th>Product ID</th>
                                                 <th>Product details</th>
                                                 <th>State</th>

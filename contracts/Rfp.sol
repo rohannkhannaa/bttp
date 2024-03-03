@@ -37,7 +37,7 @@ contract Rfp { // RFP
     struct ContractAdmin { // Admin
         uint id;
         string name;
-        uint age;
+        uint age; 
         string designation;
     }
 
@@ -321,7 +321,7 @@ contract Rfp { // RFP
     }
 
     // requestBid
-    function requestBid(address _shqId, uint _rfpId) public{
+    function requestBid(address _shqId, uint _rfpId ) public{
         require(isShq(msg.sender) && isVerified(msg.sender));
         
         requestsCount++;
