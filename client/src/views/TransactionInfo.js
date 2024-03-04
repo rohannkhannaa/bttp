@@ -136,7 +136,7 @@ class TransactionInfo extends Component {
 
                 rfpTable.push(<tr><td>{i+1}</td><td>{request[0]}</td><td>{request[1]}</td><td>{rowsArea[i]}</td><td>{rowsCity[i]}</td><td>{rowsState[i]}</td><td>{rowsPrice[i]}</td><td>{rowsSurvey[i]}</td>
                 <td>
-                     <Button onClick={this.rfpTransfer(i+1, request[1])} disabled={disabled} className="button-vote">
+                     <Button onClick={this.rfpTransfer(i+1, request[1])} disabled={!disabled} className="button-vote">
                           Verify Transaction
                     </Button>
                 </td>
