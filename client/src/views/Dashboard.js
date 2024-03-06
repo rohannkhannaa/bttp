@@ -56,10 +56,11 @@ class Dashboard extends Component {
       account: null,
       web3: null,
       flag: null,
-      verified: '',
-      registered: '',
+      verified: "",
+      registered: "",
       count: 0,
-      id: '',
+      id: "",
+      row : [],
     };
   }
 
@@ -82,11 +83,10 @@ class Dashboard extends Component {
     window.location.reload(true);
   };
 
-
   componentDidMount = async () => {
     //For refreshing page only once
     if (!window.location.hash) {
-      window.location = window.location + '#loaded';
+      window.location = window.location + "#loaded";
       window.location.reload();
     }
 
@@ -100,24 +100,32 @@ class Dashboard extends Component {
       const deployedNetwork = Rfp.networks[networkId];
       const instance = new web3.eth.Contract(
         Rfp.abi,
-        deployedNetwork && deployedNetwork.address,
+        deployedNetwork && deployedNetwork.address
       );
 
       const currentAddress = await web3.currentProvider.selectedAddress;
       console.log(currentAddress);
-      this.setState({ RfpInstance: instance, web3: web3, account: accounts[0] });
-      verified = await this.state.RfpInstance.methods.isVerified(currentAddress).call();
+      this.setState({
+        RfpInstance: instance,
+        web3: web3,
+        account: accounts[0],
+      });
+      verified = await this.state.RfpInstance.methods
+        .isVerified(currentAddress)
+        .call();
       console.log(verified);
       this.setState({ verified: verified });
-      var registered = await this.state.RfpInstance.methods.isShq(currentAddress).call();
+      var registered = await this.state.RfpInstance.methods
+        .isShq(currentAddress)
+        .call();
       console.log(registered);
       this.setState({ registered: registered });
 
       var count = await this.state.RfpInstance.methods.getRfpCount().call();
       count = parseInt(count);
-      console.log(typeof (count));
+      console.log(typeof count);
       console.log(count);
-      //this.setState({count:count}); 
+      //this.setState({count:count});
 
       var docu = await this.state.RfpInstance.methods.getDocument(1).call();
       console.log(docu);
@@ -132,54 +140,148 @@ class Dashboard extends Component {
       var rowsPrice = [];
       var rowsPID = [];
       var rowsSurvey = [];
-      var rowsDocument =[];
-      
-
+      var rowsDocument = [];
+      var dataPid = [];
       for (var i = 1; i < count + 1; i++) {
-        rowsArea.push(<ContractData contract="Rfp" method="getArea" methodArgs={[i, { from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" }]} />);
-        rowsCity.push(<ContractData contract="Rfp" method="getCity" methodArgs={[i, { from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" }]} />);
-        rowsState.push(<ContractData contract="Rfp" method="getState" methodArgs={[i, { from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" }]} />);
-        rowsPrice.push(<ContractData contract="Rfp" method="getPrice" methodArgs={[i, { from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" }]} />);
-        rowsPID.push(<ContractData contract="Rfp" method="getPID" methodArgs={[i, { from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" }]} />);
-        rowsSurvey.push(<ContractData contract="Rfp" method="getPID" methodArgs={[i, { from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" }]} />);
+        rowsArea.push(
+          <ContractData
+            contract="Rfp"
+            method="getArea"
+            methodArgs={[
+              i,
+              { from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" },
+            ]}
+          />
+        );
+        rowsCity.push(
+          <ContractData
+            contract="Rfp"
+            method="getCity"
+            methodArgs={[
+              i,
+              { from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" },
+            ]}
+          />
+        );
+        rowsState.push(
+          <ContractData
+            contract="Rfp"
+            method="getState"
+            methodArgs={[
+              i,
+              { from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" },
+            ]}
+          />
+        );
+        rowsPrice.push(
+          <ContractData
+            contract="Rfp"
+            method="getPrice"
+            methodArgs={[
+              i,
+              { from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" },
+            ]}
+          />
+        );
+        rowsPID.push(
+          <ContractData
+            contract="Rfp"
+            method="getPID"
+            methodArgs={[
+              i,
+              { from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" },
+            ]}
+          />
+        );
+        rowsSurvey.push(
+          <ContractData
+            contract="Rfp"
+            method="getPID"
+            methodArgs={[
+              i,
+              { from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" },
+            ]}
+          />
+        );
         //rowsDocument.push(<ContractData contract="Rfp" method="getDocument" methodArgs={[i, { from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" }]} />);
         var docu = await this.state.RfpInstance.methods.getDocument(i).call();
+        var pidValue = await this.state.RfpInstance.methods
+          .getPID(i)
+          .call({ from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" });
+        dataPid.push(pidValue);
+
         rowsDocument.push(docu);
       }
-      var dict = {}
-          for (var i = 1; i < count + 1; i++) {
-            var address = await this.state.RfpInstance.methods.getRfpOwner(i).call();
-            dict[i] = address;
-          }
-    
-          console.log(dict[1]);
+      console.log(dataPid);
+      var dict = {};
+      for (var i = 1; i < count + 1; i++) {
+        var address = await this.state.RfpInstance.methods
+          .getRfpOwner(i)
+          .call({ from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" });
+        dict[i] = address;
+      }
+
+      console.log(dict[1]);
       console.log(rowsDocument[0]);
 
-      for (var i = 0; i < count; i++) {
-        // var requested = await this.state.RfpInstance.methods.isRequested(i+1).call();
-        // console.log(requested);
-        // console.log(rowsPID[i]);
-        row.push(<tr><td>{i + 1}</td><td>{rowsArea[i]}</td><td>{rowsCity[i]}</td><td>{rowsState[i]}</td><td>{rowsPrice[i]}</td><td>{rowsSurvey[i]}</td>
-        <td>{<a href={`${rowsDocument[i]}`} target="_blank">Document</a>}</td>
-        <td>
-             <Button onClick={this.requestBid(dict[i + 1], i+1)} disabled={!verified} className="button-vote">
+      const fetchDataPromises = [];
+
+    for (let i = 1; i <= count; i++) {
+      fetchDataPromises.push(
+        Promise.all([
+          this.state.RfpInstance.methods.getArea(i).call({ from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" }),
+          this.state.RfpInstance.methods.getCity(i).call({ from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" }),
+          this.state.RfpInstance.methods.getState(i).call({ from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" }),
+          this.state.RfpInstance.methods.getPrice(i).call({ from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" }),
+          this.state.RfpInstance.methods.getSurveyNumber(i).call({ from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" }),
+          this.state.RfpInstance.methods.getDocument(i).call({ from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" }),
+          this.state.RfpInstance.methods.getPID(i).call({ from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" }),
+          this.state.RfpInstance.methods.getRfpOwner(i).call({ from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" }),
+        ])
+      );
+    }
+
+    const fetchDataResults = await Promise.all(fetchDataPromises);
+
+    // Render the rows based on fetched data
+    var promises = [];
+    for (let i = 0; i < count; i++) {
+      const [area, city, state, price, survey, document, pidValue, owner] = fetchDataResults[i];
+      var requested = await this.state.RfpInstance.methods.isRequested(i + 1).call({ from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" });
+
+      promises.push(row.push(
+        <tr key={i + 1}>
+          <td>{i + 1}</td>
+          <td>{area}</td>
+          <td>{city}</td>
+          <td>{state}</td>
+          <td>{price}</td>
+          <td>{pidValue}</td>
+          <td><a href={document} target="_blank" rel="noopener noreferrer">Document</a></td>
+          <td>
+            <Button onClick={this.requestBid(owner, pidValue)} disabled={!verified || requested} className="button-vote">
               Make bid
-             </Button>
-           </td>
-        </tr>)
+            </Button>
+          </td>
+        </tr>
+      ));
+    }
 
+    await Promise.all(promises);
+      console.log(JSON.stringify(row));
+      this.setState({
+        row  : row
       }
-      // console.log(JSON.stringify(row));
-
+        )
+      
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
-        `Failed to load web3, accounts, or contract. Check console for details.`,
+        `Failed to load web3, accounts, or contract. Check console for details.`
       );
       console.error(error);
     }
   };
-
 
 
   // componentDidMount = async () => {
@@ -255,7 +357,7 @@ class Dashboard extends Component {
   //     }
   //     console.log(rowsDocument);
   //     console.log(rowsArea);
-  //     for (var i = 0; i < count; i++) { 
+  //     for (var i = 0; i < count; i++) {
   //       console.log("Here"+count);
   //       var requested = await this.state.RfpInstance.methods.isRequested(i + 1).call();
   //       console.log(requested);
@@ -279,10 +381,6 @@ class Dashboard extends Component {
   //     console.error(error);
   //   }
   // };
-
- 
-
-
 
   render() {
     if (!this.state.web3) {
@@ -446,7 +544,8 @@ class Dashboard extends Component {
                             <th>Request Contract</th>
                           </tr>
                         </thead>
-                        <tbody>{row}</tbody>
+                        <tbody>{this.state.row}</tbody>
+                       
                       </Table>
                     </CardBody>
                   </Card>
