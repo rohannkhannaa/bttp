@@ -48,7 +48,6 @@ class ApproveRequest extends Component {
             web3: null,
             registered: '',
             approved: '',
-            requestTable : [],
         }
     }
     approveRequest = (reqId) => async () => {
@@ -93,26 +92,22 @@ class ApproveRequest extends Component {
             this.setState({ registered: registered });
             var requestsCount = await this.state.RfpInstance.methods.getBidCount().call();
             console.log(requestsCount);
-            const promises = [];
+            
             for (let i = 1; i < requestsCount + 1; i++) {
                 var request = await this.state.RfpInstance.methods.getBidDetails(i).call();
                 var approved = await this.state.RfpInstance.methods.isApproved(i).call();
                 console.log(approved);
                 if (currentAddress == request[0].toLowerCase()) {
-                    promises.push(requestTable.push(<tr><td>{i}</td><td>{request[1]}</td><td>{request[2]}</td><td>{request[3].toString()}</td>
+                    requestTable.push(<tr><td>{i}</td><td>{request[1]}</td><td>{request[2]}</td><td>{request[3].toString()}</td>
                         <td>
                             <Button onClick={this.approveRequest(i)} disabled={approved} className="button-vote">
                                 Approve Request
                     </Button>
-                        </td></tr>))
+                        </td></tr>)
                 }
                 // console.log(request[1]);
             }
             // console.log(requestTable);
-            await Promise.all(promises);
-            this.setState({
-                requestTable : requestTable
-            })
 
         } catch (error) {
             // Catch any errors for any of the above operations.
@@ -172,7 +167,7 @@ class ApproveRequest extends Component {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {this.state.requestTable}
+                                        {requestTable}
                                     </tbody>
                                 </Table>
                             </CardBody>

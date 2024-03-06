@@ -44,7 +44,6 @@ class Dashboard extends Component {
       web3: null,
       count: 0, 
       requested: false,
-      row : [],
     };
   }
 
@@ -187,9 +186,7 @@ class Dashboard extends Component {
       }
 
       await Promise.all(rowPromises);
-      this.setState({
-        row : row
-      })
+
       // ... the rest of your code
     } catch (error) {
       // ... your existing error handling
@@ -276,7 +273,7 @@ class Dashboard extends Component {
                             <th>Make Payment</th>
                           </tr>
                         </thead>
-                        <tbody>{this.state.row}</tbody>
+                        <tbody>{row}</tbody>
                       </Table>
                     </CardBody>
                   </Card>
