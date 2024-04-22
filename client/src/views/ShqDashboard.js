@@ -137,7 +137,6 @@ class SDash extends Component {
         row.push(<tr><td>{i + 1}</td><td>{rowsArea[i]}</td><td>{rowsCity[i]}</td><td>{rowsState[i]}</td><td>{rowsPrice[i]}</td><td>{rowsSurvey[i]}</td>
         <td>{<a href={`${rowsDocument[i]}`} target="_blank">Document</a>}</td>
         </tr>)
-
       }
       console.log(JSON.stringify(row));
 

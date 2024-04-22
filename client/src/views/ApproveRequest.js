@@ -94,11 +94,17 @@ class ApproveRequest extends Component {
             console.log(requestsCount);
             
             for (let i = 1; i < requestsCount + 1; i++) {
+                var area = await this.state.RfpInstance.methods.getArea(i).call();
                 var request = await this.state.RfpInstance.methods.getBidDetails(i).call();
                 var approved = await this.state.RfpInstance.methods.isApproved(i).call();
+                var city = await this.state.RfpInstance.methods.getCity(i).call();
+                var pid = await this.state.RfpInstance.methods.getPID(i).call();
                 console.log(approved);
                 if (currentAddress == request[0].toLowerCase()) {
-                    requestTable.push(<tr><td>{i}</td><td>{request[1]}</td><td>{request[2]}</td><td>{request[3].toString()}</td>
+                    requestTable.push(<tr><td>{i}</td><td>{request[1]}</td>
+                    <td>{area}</td>
+                    <td>{city}</td>
+                    <td>{pid}</td><td>{request[3].toString()}</td>
                         <td>
                             <Button onClick={this.approveRequest(i)} disabled={approved} className="button-vote">
                                 Approve Request
@@ -161,6 +167,8 @@ class ApproveRequest extends Component {
                                         <tr>
                                             <th>#</th>
                                             <th>Development Agency ID</th>
+                                            <th>Product ID</th>
+                                            <th>Product Details</th>
                                             <th>RFP ID</th>
                                             <th>Request Status</th>
                                             <th>Approve Request</th>
